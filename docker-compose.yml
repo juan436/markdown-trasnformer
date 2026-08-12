@@ -1,0 +1,19 @@
+services:
+  markdown-transformer:
+    build: .
+    env_file: .env
+    restart: unless-stopped
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    # Red externa que ya usa el backend de `portfolio` (jvillegas-portafolio.jvserver.com)
+    # en su propio docker-compose.yml — es quien va a llamar a este servicio.
+    # Confirmar el nombre real en el VPS con: docker network ls
+    name: proxy
+    external: true
